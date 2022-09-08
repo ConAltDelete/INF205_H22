@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{listings}
+
+\title{Exersice 1}
+\author{Mats, Katla, Oda}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition}
+
+"void main()" misuse was brought up on Wednesday; "this function will return no kind of data, i.e. nothing". We chose to define void as it has legitimate uses that were not mentioned as well, such as moving nonspecific data (void i/go) or referring to locations in memory (void*).
+
+What is void? Void is a null data-type, marking spaces in memory where contents are not designated as any particular kind of data.
+
+\section{Translation of code}
+
+\lstinputlisting[language=c++,breaklines=true]{./src/python2cpp.cpp}
+
+This gives the output:
+
+\lstinputlisting{./output.txt}
+
+\end{document}
