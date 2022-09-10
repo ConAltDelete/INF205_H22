@@ -1,32 +1,22 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 
 const float pos = (1+std::sqrt(5))/2;
 const float neg = (1-std::sqrt(5))/2;
+const float underside = std::sqrt(5);
 
 bool check_if_fib(int x) {
-	int estimate_n = std::log(x)/std::log(pos);
+	/*
+	 * performing a test using Binet's idetification formula
+	 */
+	long long test1 = 5*std::pow(x,2)+4;
+	long long test2 = 5*std::pow(x,2)-4;
 	
-	int fib_n = (std::pow(pos,estimate_n)-std::pow(neg,estimate_n))/std::sqrt(5);
-	int fib_p = (std::pow(pos,estimate_n-1)-std::pow(neg,estimate_n-1))/std::sqrt(5);
-	
-	int fibo_next;
+	bool ver1 = std::ceil(std::sqrt(test1))*std::floor(std::sqrt(test1)) == test1;
+	bool ver2 = std::ceil(std::sqrt(test2))*std::floor(std::sqrt(test2)) == test2;
 
-	while( x >= fib_n){
-		std::cout << 
-			estimate_n
-			<< "\t"
-			<< fib_n
-			<< "\n";
-
-		fibo_next = fib_n + fib_p;
-
-		estimate_n++;
-
-		fib_p = fib_n;
-		fib_n = fibo_next;
-	}
-	return x == fib_p;
+	return (ver1 || ver2);
 }
 
 bool print_fibo_until(int x) {
@@ -48,15 +38,15 @@ bool print_fibo_until(int x) {
 	return x == fibo_previous;
 }
 
-int main() {
-	int y = 876545678;
-
-	//if(print_fibo_until(y)){
-	if(check_if_fib(y)){
-		std::cout << y << " is a Fibonacci number\n";
+int main(int argn, char** argv) {
+	int y;
+	if(argn > 1){
+		y = std::stoi(argv[1],nullptr,10);
 	} else {
-		std::cout << y << " is not a Fibonacci number\n";
+		y = 17711;
 	}
+
+	std::cout << y << " is " << (check_if_fib(y)?"":"not ") << "a Fibonacci number\n";
 
 	return 0;
 }
