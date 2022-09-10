@@ -19,23 +19,22 @@ bool check_if_fib(int x) {
 	return (ver1 || ver2);
 }
 
-bool print_fibo_until(int x) {
-	int n, fibo_n = 1;
+void print_fibo_until(int x) {
+	int n = 1;
+	int fibo_n = 1;
 	int fibo_previous = 0;
 
 	int fibo_next;
+start_loop:
+	std::cout << n << "\t" << fibo_n << std::endl;
 
-	while( x >= fibo_n){
-		std::cout << n << "\t" << fibo_n << std::endl;
+	fibo_next = fibo_n + fibo_previous;
 
-		fibo_next = fibo_n + fibo_previous;
+	n++;
 
-		n++;
-
-		fibo_previous = fibo_n;
-		fibo_n = fibo_next;
-	}
-	return x == fibo_previous;
+	fibo_previous = fibo_n;
+	fibo_n = fibo_next;
+	if(fibo_previous < x) goto start_loop;
 }
 
 int main(int argn, char** argv) {
@@ -48,5 +47,7 @@ int main(int argn, char** argv) {
 
 	std::cout << y << " is " << (check_if_fib(y)?"":"not ") << "a Fibonacci number\n";
 
+	print_fibo_until(y);
+	
 	return 0;
 }
