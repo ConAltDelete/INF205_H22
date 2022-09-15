@@ -1,4 +1,4 @@
-#include "../h_files/prime_number_generator.h"
+#include "prime_number_generator.h"
 
 // requires Iterator satisfies RandomAccessIterator
 template <typename Iterator>
