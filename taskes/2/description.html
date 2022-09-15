@@ -1,0 +1,88 @@
+  Resource-efficient programming (INF205) lab u37: 15th September 2022
+
+   Work on the below and submit 1) on [1]Google docs and 2, 3) through
+   canvas.
+
+   The recommendation is still to work together in the same groups in
+   which you plan to collaborate for the INF205 programming project. For
+   2, 3), one person submits individually on behalf of all group members;
+   write somewhere who your group members are. For 1), comment
+   anonymously.
+
+    1. Module feedback and recommendations
+
+   Help guide the module into the direction that suits you best as the
+   specific group of learners and developers that you are. Create entries
+   on the [2]feedback and recommendations document for this purpose.
+
+   This can be about the topics, the format/form of presentation, the
+   tutorial activities, etc. - anything related to this module. Some good
+   practices about this include:
+     * Write anonymously, and do not expose the identity of any other
+       commenters if you happen to know who they are.
+     * Contribute your own point of view independently and positively. Do
+       not criticize others' comments, and always let them stand as they
+       are.
+     * Something along the lines "We did X, and we also did Y. We could
+       use more of X, it could be at the expense of Y." will be easier to
+       take up than "Just don't do any more Y."
+     * Best connect to something that was done (or included in the
+       outline) and that you would like to affirm. Propose where you would
+       like to go with it, such as "X is among the more interesting
+       elements. We could develop it into X'."
+     * Include a very brief rationale as to why you are recommending
+       something.
+
+   You may need to logout from your Google account before commenting, or
+   it will not be anonymous.
+
+    2. Size of fundamental data types
+
+   What outcome do you find from checking the size of the C++ fundamental
+   data types on your own system, e.g., as done in the lecture
+   ([3]datatype-size.cpp)? It will normally conform to [4]LLP64 under
+   Windows and [5]LP64 otherwise.
+
+    3. Performance measurement
+
+   There are many ways to measure the runtime of a program, including
+   "time" on the command line. Section 13.7 in the Stroustrup (2018)
+   textbook introduces the following technique:
+#include <chrono>
+
+...
+{ ... /* somewhere */
+   auto t0 = std::chrono::high_resolution_clock::now();
+   do_the_work();
+   auto t1 = std::chrono::high_resolution_clock::now();
+   auto delta_t = std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).c
+ount();
+
+   std::cout << "do_the_work() took " << 0.001*delta_t << " ms to run.\n";
+   ...
+}
+
+   Run a performance scaling test, measuring the runtime as a function of
+   n, for the lecture example from week 36, but using 8-byte integers
+   (int64_t as below, or in accordance with your architecture as
+   determined above):
+bool is_prime(int64_t n)
+{
+   for(int64_t i = 2; n >= i*i; i++)
+   {
+      if((n % i) == 0) return false;
+   }
+   return true;
+}
+
+   Design your measurements intelligently in a way that at least allows
+   for a discussion of average-case and/or worst-case time requirements.
+   Do you find the runtime to scale with O(n^1/2) as expected?
+
+References
+
+   1. https://home.bawue.de/~horsch/teaching/inf205/feedback/u37.html
+   2. https://home.bawue.de/~horsch/teaching/inf205/feedback/u37.html
+   3. https://home.bawue.de/~horsch/teaching/inf205/src/datatype-size.cpp
+   4. https://en.wikipedia.org/wiki/64-bit_computing#64-bit_data_models
+   5. https://en.wikipedia.org/wiki/64-bit_computing#64-bit_data_models
