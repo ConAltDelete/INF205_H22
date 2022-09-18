@@ -1,5 +1,7 @@
-#include "prime_number_generator.h"
-
+//#include "PNG.h"
+#include <iostream>
+#include<algorithm>
+#include<vector>
 // requires Iterator satisfies RandomAccessIterator
 template <typename Iterator>
 size_t prime_sieve(Iterator start, Iterator end)

@@ -1,5 +1,4 @@
-#include <iostream>
-#include "prime_number_generator.h"
+#include "PNG.cpp"
 
 
 int main(int argc, const char* argv[])

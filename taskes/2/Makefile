@@ -4,7 +4,7 @@
 	g++ -c ./src/datatype-size.cpp -o ./obj/datatype-size.o
 
 test:
-	g++ -I./h_files ./src/test.cpp ./src/prime_number_genrator.cpp -o ./bin/test.exe 
+	g++ ./h_files/PNG.h ./h_files/PNG.cpp ./src/test.cpp -o ./bin/test.exe
 
 clean:
 	rm -f ./obj/*
