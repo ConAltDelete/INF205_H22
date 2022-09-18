@@ -1,4 +1,4 @@
-#include "PNG"
+#include "PNG.cpp"
 
 bool is_prime(int64_t n)
 {

@@ -1,6 +1,6 @@
 #include <chrono>
 
-std::chrono::time_point timestamp_function(*funcptr, int argv[]){
+std::chrono::time_point timestamp_function(void* funcptr, int argv[]){
 	/*
 	 * times a function "funcptr" with the arguments "argv" and return the duration.
 	 * */
@@ -11,19 +11,19 @@ std::chrono::time_point timestamp_function(*funcptr, int argv[]){
 	return delta_t;
 }
 
-std::chrono::time_point worst_case(*funcptr, int argv[]){
+std::chrono::time_point<std::chrono::microseconds> worst_case(void* funcptr, int argv[]){
 	/*
 	 * estimates the worst case senario
 	 * */
 }
 
-std::chrono::time_point avg_case(*funcptr, int argv[]){
+std::chrono::time_point<std::chrono::microseconds> avg_case(void* funcptr, int argv[]){
 	/*
 	 * estimates the avg case senario
 	 * */
 }
 
-std::chrono::time_point best_case(*funcptr, int argv[]){
+std::chrono::time_point<std::chrono::microseconds> best_case(void* funcptr, int argv[]){
 	/*
 	 * estimate the best case senario
 	 * */
