@@ -1,4 +1,4 @@
-./bin/task2.exe: ./obj/task2.obj ./obj/PNG.obj ./obj/timing.obj
+./bin/task2.exe: ./obj/PNG.obj  ./obj/timing.obj ./obj/task2.obj
 	g++ -I./src/ $^ -o $@
 
 ./obj/%.obj: ./src/%.cpp

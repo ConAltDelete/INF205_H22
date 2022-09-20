@@ -1,4 +1,3 @@
-//#include "PNG.h"
 #include <iostream>
 #include<algorithm>
 #include<vector>
