@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <iostream>
-#include "timing.cpp"
+#include "timing.h"
 
 bool is_prime(int64_t n)
 	// Figuring out if number N is a prime number
@@ -20,5 +20,5 @@ int main(int argn, char** argv){
 
 	std::cout << "best case: " << best_case(*is_prime, test) << "\n";
 	std::cout << "avg case: " << avg_case(*is_prime, test) << "\n";
-	std::cout << "worst case: " << worst_case(*is_prime, test) << "\n";
+	//std::cout << "worst case: " << worst_case(*is_prime, test) << "\n";
 }

@@ -1,8 +1,7 @@
 #include <chrono>
 #include <vector>
-#include "PNG.cpp"
-
-typedef bool (*funcptr)(int64_t); // function pointer declaration
+#include "PNG.h"
+#include "timing.h"
 
 long long timestamp_function(funcptr func, int argv){
 	/*

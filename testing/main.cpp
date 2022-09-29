@@ -1,39 +1,23 @@
-#include "./std_lib_facilities.h"
+#include <iostream>
 
-vector<int> numbers;
-int num;
-int temp_num;
-int number_to_sum;
-double result = 0;
+struct My_poo {
+	int a;
+	float liquid;
 
+	int scale_poo(int noodles){
+		return noodles * this->a / (int)this->liquid;
+	}
+	int scale_poo(int noodles, My_poo* shit){
+		return noodles * (int)shit->liquid / shit->a * this->a / (int)this->liquid;
+	}
+};
 
-int main(){
-    cout << "Please enter the number of integers to sum.\n";
-    cin >> number_to_sum;
+int main(int argn, char** argv){
+	My_poo turd = My_poo{4,9};
+	My_poo lol  = My_poo{2,2};
+	// turd.a = 4;
+	// turd.liquid = 9;
 
-    cout << "Please enter some integers (pres '|' to stop):\n";
-    while(cin >> num) {
-        numbers.push_back(num);
-    }
-
-    if (numbers.size() < number_to_sum) error("You did not write enothe numbers to sum.\n");
-
-	std::cout << num << "\n";
-
-    for (int i = 0; i < number_to_sum; i++) {
-        result += numbers[i];
-        cout << "Fuck";
-    }
-    cout << "The sum of the first " << number_to_sum << " numbers (";
-
-	std::cout << num << "\n";
-    
-    for (int k = 0; k < number_to_sum; k++) {
-        cout << ' ' << numbers[k] << k;
-    }
-
-    cout << "is " << result << '\n';
-
-
-
+	std::cout << turd.scale_poo(10) << "\n";
+	std::cout << lol.scale_poo(20,&turd) << "\n";
 }
