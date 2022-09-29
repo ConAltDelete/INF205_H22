@@ -1,7 +1,8 @@
 /* Week 39, problem 3: Turn BookIndex into a subclass of LiteratureIndex */
 
-#include "book-index.h"
+//#include "book-index.h"
 #include "journal-article-index.h"
+#include "book-index.h"
 #include <iostream>
 
 namespace
