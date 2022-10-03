@@ -16,8 +16,14 @@ int main()
     */
    for(int i = 0; i < N; i++)
    {
-      std::cin >> spheres[i].get_size();
-      for(int d = 0; d < 3; d++) std::cin >> spheres[i].get_coords()[d];
+	   float e;
+      std::cin >> e;
+	  spheres[i].set_size(e);
+	  float coord[3];
+      for(int d = 0; d < 3; d++){
+		  std::cin >> coord[d];
+	  }
+	  spheres[i].set_coords(coord[0],coord[1],coord[2]);
    }
 
    /*
@@ -25,11 +31,11 @@ int main()
     *
     * note: collision here means "overlap" between spheres
     */
-   int num_collisions = count_collisions(N, spheres);
+   int num_collisions = count_collisions(N, &spheres);
    std::cout << num_collisions << " collisions were found.\n";
 
    /*
     * deallocate the array that was created with "new"
     */
-   delete[] spheres;
+	delete[] spheres;
 }

@@ -1,5 +1,5 @@
 #include "collisions_struct.h"
-
+#include <cmath>
 // is there a collision between sphere i and sphere j?
 //
 // by a collision here we mean a genuine overlap between spheres:
@@ -15,10 +15,15 @@ bool check_collision(Sphere* sphere_i, Sphere* sphere_j)
    /*
     * vector pointing from the centre of i to the centre of j
     */
+	float sphere_j_coords[3];
+	for(int i = 0; i < 3; i++) sphere_j_coords[i] = sphere_j->get_coords()[i];
+	float sphere_i_coords[3];sphere_j->get_coords();
+	for(int i = 0; i < 3; i++) sphere_i_coords[i] = sphere_i->get_coords()[i];
+
    float distance_vector[3] = {
-      sphere_j->coords[0] - sphere_i->coords[0],
-      sphere_j->coords[1] - sphere_i->coords[1],
-      sphere_j->coords[2] - sphere_i->coords[2]
+	   std::abs(sphere_j_coords[0] - sphere_i_coords[0]),
+      std::abs(sphere_j_coords[1] - sphere_i_coords[1]),
+      std::abs(sphere_j_coords[2] - sphere_i_coords[2])
    };
 
    /*
@@ -31,13 +36,13 @@ bool check_collision(Sphere* sphere_i, Sphere* sphere_j)
    /*
     * is the square distance smaller than the square of the sum of radii?
     */
-   float sum_of_radii = 0.5 * (sphere_i->size + sphere_j->size);
+   float sum_of_radii = 0.5 * (sphere_i->get_size() + sphere_j->get_size());
    return square_distance < sum_of_radii*sum_of_radii;
 }
 
 // count the number of collisions between pairs of spheres
 //
-int count_collisions(int N, Sphere spheres[])
+int count_collisions(int N, Sphere* spheres[])
 {
    int num_collisions = 0;
    
@@ -46,7 +51,7 @@ int count_collisions(int N, Sphere spheres[])
     */
    for(int i = 0; i < N-1; i++)
       for(int j = i+1; j < N; j++)
-         if(check_collision(&spheres[i], &spheres[j]))
+         if(check_collision(spheres[i], spheres[j]))
             num_collisions++;
    
    return num_collisions;
