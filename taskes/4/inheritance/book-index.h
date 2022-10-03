@@ -5,10 +5,11 @@
 
 #include <cassert>
 #include <iostream>
+#include "litindex.h"
 
 namespace litindex
 {
-   class BookIndex
+   class BookIndex: public LiteratureIndex
    {
    public:
       BookIndex() {}
