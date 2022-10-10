@@ -1,147 +1,165 @@
 #include <iostream>
 #include "sequence.h"
+#include "doubly_linked_list.h"
 
 using namespace seq;
 
 class DoublyLinkedList: public Sequence {
 	DLLNode* current_node = nullptr;
 
-	int index = 0;
+	int List_index = 0;
 
 	DLLNode* Front = current_node;
 	DLLNode* Back = current_node;
-	int size = 0;
+	int List_size = 0;
 
 	public:
 
 	void go_to(int i){
-		if(this->current_node->index < i){
+		if(this->List_index < i){
 			DLLNode* at_node = this->current_node;
-			while(this->index != i){
+			while(this->List_index != i){
 				at_node = at_node->pptr;
-				this->index--;
+				this->List_index--;
 			}
 			this->current_node = at_node;
-		} else if(this->current_node->index > i){
+		} else if(this->List_index > i){
 			DLLNode* at_node = this->current_node;
-			while(this->index != i){
+			while(this->List_index != i){
 				at_node = at_node->nptr;
-				this->index++;
+				this->List_index++;
 			}
 			this->current_node = at_node;
 		}
 	}
 
-	bool empty(){
-		return this->size == 0;
+	bool empty() const {
+		return this->List_size == 0;
 	}
-	size_t size(){
-		return this->size;
+	size_t size() const {
+		return this->List_size;
 	}
-	size_t index(){
-		return this->index;
+	size_t get_List_index(){
+		return this->List_index;
 	}
 
 	int& front() {
-		return this->Front->value;
+		return *this->Front->value;
 	}
 	int& back(){
-		return this->Back->value;
+		return *this->Back->value;
 	}
 
 	int& at(int i){
-		if(this->index == i){
-			return this->current_node->value;
+		if(this->List_index == i){
+			return *this->current_node->value;
 		}
 
 		this->go_to(i);
-		return this->current_node->value;
+		return *this->current_node->value;
 
-	};
+	}
 
-	void push(const int& pushed_item){
+	void push(int& pushed_item){
 		this->push_front(pushed_item);
 	}
-	void push_front(const int& pushed_item){
+	void push_front(int& pushed_item){
 		if(current_node == nullptr){
-			DDLNode* current_node = new DLLNode()
-			current_node->value = pushed_item;
+			DLLNode* current_node = new DLLNode();
+			current_node->value = &pushed_item;
 			this->current_node = current_node;
-			this->size++;
+			this->List_size++;
 		} else {
 			DLLNode* new_node = new DLLNode();
-			new_node->value = pushed_item;
+			new_node->value = &pushed_item;
 			new_node->pptr = this->Front;
 			this->Front->nptr = new_node;
 			this->Front = new_node;
-			this->size++;
+			this->List_size++;
 		}
 	}
 
-	void push_back(const int& pushed_item){
+	void push_back(int& pushed_item){
 		if(this->current_node == nullptr){
-			DDLNode* current_node = new DLLNode()
-			current_node->value = pushed_item;
+			DLLNode* current_node = new DLLNode();
+			current_node->value = &pushed_item;
 			this->current_node = current_node;
-			this->size++;
+			this->List_size++;
 		} else {
 			DLLNode* new_node = new DLLNode();
-			new_node->value = pushed_item;
+			new_node->value = &pushed_item;
 			new_node->nptr = this->Back;
 			this->Back->pptr = new_node;
-			this->size++;
+			this->List_size++;
 			this->Back = new_node;
-			this->index++;
+			this->List_index++;
 		}
 	}
 
 
-	void pop(){this->pop_front()}
+	void pop(){this->pop_front();}
 	void pop_front(){
 		if(this->current_node == this->Front && this->current_node->pptr != nullptr){
 			this->current_node = this->current_node->pptr;
-			this->index--;
+			this->List_index--;
 		}
-		if(this->Front != nullptr){
+		if(this->current_node == this->Front && this->current_node->pptr == nullptr){
+			delete this->current_node;
+			this->Front = nullptr;
+			this->Back  = nullptr;
+			this->List_size--;
+		} else if(this->Front != nullptr){
 			DLLNode* placeholder = this->Front->pptr;
 			placeholder->nptr = nullptr;
 			delete this->Front;
 			this->Front = placeholder;
+			this->List_size--;
 		}
 	}
 	void pop_back(){
 		if(this->current_node == this->Back && this->current_node->nptr != nullptr){
 			this->current_node = this->current_node->nptr;
-			this->index++;
+			this->List_index++;
 		}
-
-		if(this->Back != nullptr){
+		if(this->current_node == this->Back && this->current_node->nptr == nullptr){
+			delete this->current_node;
+			this->Front = nullptr;
+			this->Back  = nullptr;
+			this->List_size--;
+		} else if(this->Back != nullptr){
 			DLLNode* placeholder = this->Back->nptr;
 			placeholder->pptr = nullptr;
 			delete this->Back;
 			this->Back = placeholder;
+			this->List_size--;
 		}
 	}
 	void clear(){
 		/*
 		 * 1) set position to Front or Back
-		 * 2) pop until size == 1
-		 * 3) delete value at index 0
+		 * 2) pop until size == 0
+		 * 3) delete value at List_index 0
 		 * 4) profit
 		 * */
 
+		this->current_node = this->Back;
+
+		while(this->List_size > 0){
+			this->pop(); // deletes every value
+		}
 	}
 
-	void insert_at(int i, const int& inserted_item){
+	void insert_at(int i, int& inserted_item){
 		this->go_to(i);
 		DLLNode* new_node = new DLLNode();
-		new_node->value = inserted_item;
+		new_node->value = &inserted_item;
 		new_node->pptr = this->current_node->pptr;
 		new_node->nptr = this->current_node;
 
 		this->current_node->pptr->nptr = new_node;
 		this->current_node->pptr = new_node;
-		this->index++;
+		this->List_index++;
+		this->List_size++;
 	}
 	void erase_at(int i){
 		DLLNode* prob_node;
@@ -154,13 +172,7 @@ class DoublyLinkedList: public Sequence {
 		prob_node->nptr->pptr = prob_node->pptr;
 		this->current_node = prob_node->pptr;
 		delete prob_node;
-		this->size--;
-		this->index--;
+		this->List_size--;
+		this->List_index--;
 	}
-};
-
-struct DLLNode {
-	int* value = nullptr;
-	void* nptr = nullptr;
-	void* pptr = nullptr;
 };

@@ -4,6 +4,7 @@
 
 #include "dynamic-array.h"
 #include "singly-linked-list.h"
+#include "doubly_linked_list.h"
 
 namespace
 {
@@ -93,11 +94,10 @@ int main()
    /*
     * once the doubly linked list is implemented,
     * you should be able to run the same test on it
-    *
+    */
    std::cout << "\n\n*** test with doubly linked list ***\n";
    seq::DoublyLinkedList dll;
    float dll_time = test_with_time_measurement(&dll, iterations);
-    */
    
    std::cout << "\n\nRuntime for dynamic array:\t" << dyna_time << " s\n";
    std::cout << "Runtime for singly linked list:\t" << sll_time << " s\n";
