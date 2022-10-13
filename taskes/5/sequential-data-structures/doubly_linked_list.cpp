@@ -66,7 +66,6 @@ void DoublyLinkedList::push_front(const int& pushed_item){
 		new_node->pptr = this->Front;
 		this->Front->nptr = new_node;
 		this->Front = new_node;
-		this->List_size++;
 	}
 }
 
@@ -98,6 +97,7 @@ void DoublyLinkedList::pop_front(){
 	}
 	if(this->current_node == this->Front && this->current_node->pptr == nullptr){
 		delete this->current_node;
+		this->current_node = nullptr;
 		this->Front = nullptr;
 		this->Back  = nullptr;
 		this->List_size--;
@@ -116,6 +116,7 @@ void DoublyLinkedList::pop_back(){
 	}
 	if(this->current_node == this->Back && this->current_node->nptr == nullptr){
 		delete this->current_node;
+		this->current_node = nullptr;
 		this->Front = nullptr;
 		this->Back  = nullptr;
 		this->List_size--;
