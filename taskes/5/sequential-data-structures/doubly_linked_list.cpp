@@ -6,19 +6,15 @@ using namespace seq;
 
 void DoublyLinkedList::go_to(int i){
 	if(this->List_index < i){
-		DLLNode* at_node = this->current_node;
 		while(this->List_index != i){
-			at_node = at_node->nptr;
+			this->current_node = this->current_node->nptr;
 			this->List_index++;
 		}
-		this->current_node = at_node;
 	} else if(this->List_index > i){
-		DLLNode* at_node = this->current_node;
 		while(this->List_index != i){
-			at_node = at_node->pptr;
+			this->current_node = this->current_node->pptr;
 			this->List_index--;
 		}
-		this->current_node = at_node;
 	}
 }
 
@@ -66,6 +62,7 @@ void DoublyLinkedList::push_front(const int& pushed_item){
 		new_node->pptr = this->Front;
 		this->Front->nptr = new_node;
 		this->Front = new_node;
+		this->List_size++;
 	}
 }
 
@@ -137,6 +134,7 @@ void DoublyLinkedList::clear(){
 	 * */
 
 	this->current_node = this->Back;
+	this->List_index = 0;
 
 	while(this->List_size > 0){
 		this->pop(); // deletes every value
@@ -144,18 +142,27 @@ void DoublyLinkedList::clear(){
 }
 
 void DoublyLinkedList::insert_at(int i, const int& inserted_item){
+	/*
+	 * Assumes index i excists
+	 */
 	this->go_to(i);
+
+	// prepere the node
 	DLLNode* new_node = new DLLNode();
 	new_node->value = inserted_item;
 	new_node->pptr = this->current_node->pptr;
 	new_node->nptr = this->current_node;
 
+	// insert node
 	this->current_node->pptr->nptr = new_node;
 	this->current_node->pptr = new_node;
 	this->List_index++;
 	this->List_size++;
 }
 void DoublyLinkedList::erase_at(int i){
+	/*
+	 *	Assumes index i excist
+	 * */
 	DLLNode* prob_node;
 	
 	this->go_to(i);
@@ -164,8 +171,15 @@ void DoublyLinkedList::erase_at(int i){
 
 	prob_node->pptr->nptr = prob_node->nptr;
 	prob_node->nptr->pptr = prob_node->pptr;
-	this->current_node = prob_node->pptr;
+	if(prob_node->pptr != nullptr) {
+		this->current_node = prob_node->pptr;
+		this->List_index--;
+	} else if (prob_node->nptr != nullptr) {
+		this->current_node = prob_node->nptr;
+		this->List_index++;
+	}
+	prob_node->pptr = nullptr;
+	prob_node->nptr = nullptr;
 	delete prob_node;
 	this->List_size--;
-	this->List_index--;
 }
