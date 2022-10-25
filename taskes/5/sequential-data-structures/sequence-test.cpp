@@ -82,7 +82,6 @@ namespace
 int main()
 {
    int iterations = 1000;
-   
    std::cout << "*** test with dynamic array ***\n";
    seq::DynamicArray dyna;
    float dyna_time = test_with_time_measurement(&dyna, iterations);
@@ -90,7 +89,6 @@ int main()
    std::cout << "\n\n*** test with singly linked list ***\n";
    seq::SinglyLinkedList sll;
    float sll_time = test_with_time_measurement(&sll, iterations);
-   
    /*
     * once the doubly linked list is implemented,
     * you should be able to run the same test on it
@@ -101,7 +99,7 @@ int main()
    
    std::cout << "\n\nRuntime for dynamic array:\t" << dyna_time << " s\n";
    std::cout << "Runtime for singly linked list:\t" << sll_time << " s\n";
-   /*
+   
    std::cout << "Runtime for doubly linked list:\t" << dll_time << " s\n";
-    */
+
 }

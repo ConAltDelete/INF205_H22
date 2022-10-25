@@ -7,7 +7,7 @@
 namespace seq {
 
 struct DLLNode {
-	int* value = nullptr;
+	int value = 0;
 	DLLNode* nptr = nullptr;
 	DLLNode* pptr = nullptr;
 };
@@ -27,7 +27,7 @@ class DoublyLinkedList: public Sequence {
 
 	bool empty() const;
 	size_t size() const;
-	size_t index();
+	size_t get_List_index();
 
 	int& front();
 	int& back();
