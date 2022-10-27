@@ -1,0 +1,10 @@
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {1}{\ignorespaces Opening procedure\relax }}{2}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {2}{\ignorespaces Dilate procedure\relax }}{3}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {3}{\ignorespaces Erode procedure\relax }}{3}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {4}{\ignorespaces Watershed procedure\relax }}{4}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {5}{\ignorespaces Moore-Neighbor tracing algorithm\relax }}{4}{}%
