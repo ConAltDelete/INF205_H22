@@ -1,7 +1,7 @@
-Ideè
+Idé
 -----
 
-Vi bruker ideèn om at en funksjon f(x) kan dekomponeres til
+Vi bruker idéen om at en funksjon f(x) kan dekomponeres til
 
 $f(x) \approx \sum^\infty_{i=0} a_i sin(\omega_ix)+ b_i cos(\omega_ix)$
 
