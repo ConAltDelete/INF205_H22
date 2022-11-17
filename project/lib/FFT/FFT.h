@@ -11,8 +11,11 @@ namespace FFT {
 			int sum(int a, int b);
 	};
 	class DFFT {
-		std::complex* transform(std::complex[] coords,const size_t array_length, int degree_n);
-		std::complex* inverse(std::complex[],const size_t array_length);
+		public:
+			std::complex<float>* DFT(std::complex<float> coords[],const size_t array_length, int degree_n);
+			std::complex<float>* transform(std::complex<float> coords[],const size_t array_length, int degree_n);
+			std::complex<float>* inverse(std::complex<float> coeff[],const size_t array_length);
+			std::complex<float>* prim_root(int n, int radical);
 	};
 }
 #endif
