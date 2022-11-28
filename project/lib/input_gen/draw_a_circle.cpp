@@ -32,8 +32,8 @@ int main(int argc,char** argv) {
 		}
 	}
 
-	// Where do we put it? In the middle for now.
-	const int center_x=width/2, center_y=width/2;
+	// Define circle origo
+	const int center_x=ranged_rand(0,width), center_y=ranged_rand(0,height);
 
 	// Draw the circle
 	for (int y=0; y<height; y++){
