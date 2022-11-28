@@ -36,11 +36,11 @@ int main(int argc,char** argv) {
 	const int center_x=ranged_rand(0,width), center_y=ranged_rand(0,height);
 
 	// Draw the circle
-	for (int y=0; y<height; y++){
-		for (int x=0; x<width; x++){
-		double distance = std::pow(x - center_x,2)+std::pow(y - center_y,2);
-		if (distance<std::pow(radius,2))
-			IMAGE(x,y) = '1';
+	for (int y=(center_y-radius); y<(center_y+radius); y++){
+                for (int x=(center_x-radius); x<(center_x+radius); x++){
+			double distance = std::pow(x - center_x,2)+std::pow(y - center_y,2);
+			if (distance<std::pow(radius,2))
+				IMAGE(x,y) = '1';
 		}
 	}
 
