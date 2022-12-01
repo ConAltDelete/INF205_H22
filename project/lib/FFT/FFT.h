@@ -1,5 +1,8 @@
 #ifndef LIB_FFT
 #define LIB_FFT
+
+#include<iostream>
+#include <bits/stdc++.h>
 #include<complex>
 
 #define PI 2*std::acos(0.0)

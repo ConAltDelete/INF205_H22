@@ -1,31 +1,3 @@
-#include "FFT.h"
-#include<iostream>
-#include <bits/stdc++.h>
-#include<complex>
-
-
-int main() {
-	std::complex<float> samples[] = {
-		std::complex<float>{4,5},
-		std::complex<float>{1,2},
-		std::complex<float>{6,7},
-		std::complex<float>{1,1},
-		std::complex<float>{8,9}
-	};
-
-	FFT::DFFT sup = FFT::DFFT();
-
-	std::complex<float>* coff = sup.DFT(samples,5,3);
-
-	for(int i = 0;i < 5;i++){
-		std::cout << "coeff: " <<  coff[i] << "\n";
-	}
-
-	delete coff;
-
-	return 0;
-}
-
 
 std::complex<float>* FFT::DFFT::DFT(std::complex<float> coords[], const size_t array_length, int degree_n){
 	// const int K = std::min((size_t)degree_n, array_length); // We can't have a degree higher than the resolusion of the signal. It's only possible in the continius case.
