@@ -1,0 +1,35 @@
+In file included from /usr/include/x86_64-linux-gnu/c++/10/bits/c++allocator.h:33,
+                 from /usr/include/c++/10/bits/allocator.h:46,
+                 from /usr/include/c++/10/string:41,
+                 from /usr/include/c++/10/bits/locale_classes.h:40,
+                 from /usr/include/c++/10/bits/ios_base.h:41,
+                 from /usr/include/c++/10/ios:42,
+                 from /usr/include/c++/10/ostream:38,
+                 from /usr/include/c++/10/iostream:39,
+                 from main.cpp:1:
+/usr/include/c++/10/ext/new_allocator.h: In instantiation of ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = float [4]; _Args = {const float (&)[4]}; _Tp = float [4]]’:
+/usr/include/c++/10/bits/alloc_traits.h:512:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = float [4]; _Args = {const float (&)[4]}; _Tp = float [4]; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<float [4]>]’
+/usr/include/c++/10/bits/stl_vector.h:1192:30:   required from ‘void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = float [4]; _Alloc = std::allocator<float [4]>; std::vector<_Tp, _Alloc>::value_type = float [4]]’
+main.cpp:200:19:   required from here
+/usr/include/c++/10/ext/new_allocator.h:150:4: error: parenthesized initializer in array new
+  150 |  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/10/ext/new_allocator.h: In instantiation of ‘void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = float [4]; _Tp = float [4]]’:
+/usr/include/c++/10/bits/alloc_traits.h:531:15:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::destroy(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*) [with _Up = float [4]; _Tp = float [4]; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<float [4]>]’
+/usr/include/c++/10/bits/vector.tcc:488:28:   required from ‘void std::vector<_Tp, _Alloc>::_M_realloc_insert(std::vector<_Tp, _Alloc>::iterator, _Args&& ...) [with _Args = {const float (&)[4]}; _Tp = float [4]; _Alloc = std::allocator<float [4]>; std::vector<_Tp, _Alloc>::iterator = std::vector<float [4]>::iterator]’
+/usr/include/c++/10/bits/stl_vector.h:1198:21:   required from ‘void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = float [4]; _Alloc = std::allocator<float [4]>; std::vector<_Tp, _Alloc>::value_type = float [4]]’
+main.cpp:200:19:   required from here
+/usr/include/c++/10/ext/new_allocator.h:156:10: error: request for member ‘~float [4]’ in ‘* __p’, which is of non-class type ‘float [4]’
+  156 |  { __p->~_Up(); }
+      |    ~~~~~~^~~
+In file included from /usr/include/c++/10/vector:66,
+                 from main.cpp:4:
+/usr/include/c++/10/bits/stl_uninitialized.h: In instantiation of ‘_ForwardIterator std::uninitialized_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<float (*)[4]>; _ForwardIterator = float (*)[4]]’:
+/usr/include/c++/10/bits/stl_uninitialized.h:325:37:   required from ‘_ForwardIterator std::__uninitialized_copy_a(_InputIterator, _InputIterator, _ForwardIterator, std::allocator<_Tp>&) [with _InputIterator = std::move_iterator<float (*)[4]>; _ForwardIterator = float (*)[4]; _Tp = float [4]]’
+/usr/include/c++/10/bits/stl_uninitialized.h:347:2:   required from ‘_ForwardIterator std::__uninitialized_move_if_noexcept_a(_InputIterator, _InputIterator, _ForwardIterator, _Allocator&) [with _InputIterator = float (*)[4]; _ForwardIterator = float (*)[4]; _Allocator = std::allocator<float [4]>]’
+/usr/include/c++/10/bits/vector.tcc:474:3:   required from ‘void std::vector<_Tp, _Alloc>::_M_realloc_insert(std::vector<_Tp, _Alloc>::iterator, _Args&& ...) [with _Args = {const float (&)[4]}; _Tp = float [4]; _Alloc = std::allocator<float [4]>; std::vector<_Tp, _Alloc>::iterator = std::vector<float [4]>::iterator]’
+/usr/include/c++/10/bits/stl_vector.h:1198:21:   required from ‘void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = float [4]; _Alloc = std::allocator<float [4]>; std::vector<_Tp, _Alloc>::value_type = float [4]]’
+main.cpp:200:19:   required from here
+/usr/include/c++/10/bits/stl_uninitialized.h:137:72: error: static assertion failed: result type must be constructible from value type of input range
+  137 |       static_assert(is_constructible<_ValueType2, decltype(*__first)>::value,
+      |                                                                        ^~~~~

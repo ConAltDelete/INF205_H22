@@ -39,7 +39,7 @@ std::complex<float>* FFT::DFFT(std::complex<float> coords[], const size_t array_
 std::complex<float>* FFT::DFT(std::complex<float> coords[], const size_t array_length, int degree_n){
 	int K = std::min(degree_n, array_length); // We can't have a degree higher than the resolusion of the signal. It's only possible in the continius case.
 
-	std::complex<float>* w = FFT::prim_root(K,array_length);
+	std::complex<float>* w = FFT::prim_root(array_length,array_length);
 	
 	static std::complex<float> F_coeff[2*K+1]; // calculates the negative and positiv rotations.
 
@@ -48,7 +48,7 @@ std::complex<float>* FFT::DFT(std::complex<float> coords[], const size_t array_l
 
 	for(int i = -K/2; i < (int)K/2 - 1; i++){
 		temp_sum = std::complex<float>(0,0);
-		trans_coeff = std::pow(w[i+K/2],i);
+		trans_coeff = std::pow(w[i+K/2],-i);
 		for(int t = 0; t < array_length; t++){
 			temp_sum += coords[t]*trans_coeff;
 		}
