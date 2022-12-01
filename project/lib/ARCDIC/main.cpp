@@ -156,7 +156,22 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 
 	return hood;
 }
-std::vector<float[4]> A(std::vector<coords> c /*the entire contour of blob*/) { //! kan ikke bruke float[4]
+
+float quad_solve(bool pos, float points[4]){
+	float p1 = points[3] + points[0];
+	float p2 = points[0]*points[3] + points[1]*points[2];
+
+	float top;
+	if(pos){
+		top = p1 + std::sqrt(p1*p1-4*p2);
+	} else {
+		top = p1 - std::sqrt(p1*p1-4*p2);
+	}
+
+	return top/2;
+}
+
+std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/) { //! kan ikke bruke float[4]
 	/*
 	 * The vectors form a 3x3 area
 	 * */
@@ -164,8 +179,9 @@ std::vector<float[4]> A(std::vector<coords> c /*the entire contour of blob*/) { 
 	std::vector<coords> c_hood, c_hood_small, c_hood_large;
 
 	float I_x, I_y;
+	float l_min,l1,l2;
 
-	std::vector<float[4]> Mat; 
+	std::vector<float> Mat; 
 
 	int back_index, front_index, first_index, last_index;
 	
@@ -197,43 +213,21 @@ std::vector<float[4]> A(std::vector<coords> c /*the entire contour of blob*/) { 
 			Is[2] = I_x*I_y;
 			Is[3] = I_y*I_y;
 		}
-		Mat.push_back(Is);
+		
+		l1 = quad_solve(true,Is);
+		l2 = quad_solve(false,Is);
+		l_min = std::min(l1,l2);
+
+		Mat.push_back(l_min);
 	}
 	return Mat;
-}
-
-float quad_solve(bool pos, float points[4]){
-	float p1 = points[3] + points[0];
-	float p2 = points[0]*points[3] + points[1]*points[2];
-
-	float top;
-	if(pos){
-		top = p1 + std::sqrt(p1*p1-4*p2);
-	} else {
-		top = p1 - std::sqrt(p1*p1-4*p2);
-	}
-
-	return top/2;
-}
-
-std::vector<float> get_lambda(std::vector<coords> blob) {
-	std::vector<float> min_lambda;
-	float l_min,l1,l2;
-	std::vector<float[4]> A_mats =  A(blob);
-	for(auto p: A_mats){
-		l1 = quad_solve(true,p);
-		l2 = quad_solve(false,p);
-		l_min = std::min(l1,l2);
-		min_lambda.push_back(l_min);
-	}
-	return min_lambda;
 }
 
 std::vector<int> find_corners(std::vector<coords> blob, float limit) {
 	/*
 	 * returns a vector with indexes for corners.
 	 */
-	std::vector<float> lambdas =  get_lambda(blob);
+	std::vector<float> lambdas =  A_eigen(blob);
 	std::vector<int> corners;
 	for(int i = 0; i < blob.size(); i++){
 		if(lambdas[i] >= limit){
