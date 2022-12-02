@@ -47,7 +47,7 @@ void image::circle (int origin_x, int origin_y, int r){
 		}
 	}
 }
-
+// generate positiv or negative circle
 void image::circle (int origin_x, int origin_y, int r, char val){
 	int xmin = std::max((origin_x-r),0);
 	int ymin = std::max((origin_y-r),0);
