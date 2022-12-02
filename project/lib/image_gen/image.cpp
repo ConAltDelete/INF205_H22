@@ -13,7 +13,7 @@ image::image(int width, int height){
 		this->pixels[i] = '0';
 	}
 
-std::cout<<"Constructor says"<<width<<height<<"\n";
+std::cout<<"Constructor says: Width->"<<width << ", Hight->"<<height<<"\n";
 }
 
 // Destructor
@@ -25,14 +25,12 @@ std::cout<<"Destructor\n";
 }
 
 // Set point
-int image::set_point (int x, int y, char colour){
+void image::set_point (int x, int y, char colour){
 	this->pixels[(y * this->width + x)] = colour;
-
-return(0);
 }
 
 // Draw circle
-int image::circle (int origin_x, int origin_y, int r){
+void image::circle (int origin_x, int origin_y, int r){
 	int xmin = std::max((origin_x-r),0);
 	int ymin = std::max((origin_y-r),0);
 
@@ -50,8 +48,25 @@ int image::circle (int origin_x, int origin_y, int r){
 	}
 }
 
+void image::circle (int origin_x, int origin_y, int r, char val){
+	int xmin = std::max((origin_x-r),0);
+	int ymin = std::max((origin_y-r),0);
+
+	int xmax = std::min((origin_x+r),width);
+	int ymax = std::min((origin_y+r),height);
+
+	for (int x=xmin; x<=xmax; x++){
+		for (int y=ymin; y<=ymax; y++){
+
+			double d = std::pow(x - origin_x,2)+std::pow(y - origin_y,2);
+			if (d<=std::pow(r,2)){
+				set_point(x,y,val);
+			}
+		}
+	}
+}
 // Save image
-int image::save(std::string filename){
+void image::save(std::string filename){
 	std::ofstream out;
 	out.open (filename, std::ios::out);
 	out << "P1 " << width << " " << height << "\n" << this->pixels;

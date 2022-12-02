@@ -5,9 +5,10 @@ class image {
 	public:
 	image(int width, int height);
 	~image(void);
-	int set_point (int x, int y, char colour);
-	int save (std::string filename);
-	int circle (int origin_x, int origin_y, int r);
+	void set_point (int x, int y, char colour);
+	void save (std::string filename);
+	void circle (int origin_x, int origin_y, int r);
+	void circle (int origin_x, int origin_y, int r, char val);
 
 	private:
 	char *pixels;

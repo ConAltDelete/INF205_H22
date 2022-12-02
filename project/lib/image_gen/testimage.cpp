@@ -15,6 +15,8 @@ int main(){
 	image my_image(200, 200);
 
 	my_image.circle(100,100,50);
+	my_image.circle(150,100,25);
+	my_image.circle(100,100,25,'0');
 
 	my_image.save("image.pbm");
 
