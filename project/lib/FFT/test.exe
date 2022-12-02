@@ -37049,18 +37049,6 @@ inline namespace complex_literals {
 
 
 # 7 "FFT.h"
-template<T>
-class Fourier_func {
- std::complex<T> coeffs;
-}
-
-stuct Fourier_shape {
- int x;
- int y;
- int t0;
- int t1;
- Fourier_func* nood;
-}
 namespace FFT {
  class test_FFT {
   public:
@@ -37068,8 +37056,11 @@ namespace FFT {
    int sum(int a, int b);
  };
  class DFFT {
-  std::complex* transform(std::complex[] coords,const size_t array_length, int degree_n);
-  std::complex* inverse(std::complex[],const size_t array_length);
+  public:
+   std::complex<float>* DFT(std::complex<float> coords[],const size_t array_length, int degree_n);
+   std::complex<float>* transform(std::complex<float> coords[],const size_t array_length, int degree_n);
+   std::complex<float>* inverse(std::complex<float> coeff[],const size_t array_length);
+   std::complex<float>* prim_root(int n, int radical);
  };
 }
 # 2 "main.cpp" 2
@@ -37118,9 +37109,9 @@ int main() {
   std::complex<float>{4,0},
   std::complex<float>{1,0},
   std::complex<float>{3,8}
- }
+ };
 
- std::complex<float>* coff = FFT::DFT(samples,5,3);
+ std::complex<float>* coff = FFT::DFFT::DFT(samples,5,3);
 
  for(int i = 0;i < 5;i++){
   std::cout << coff[i] << "\n";
@@ -37130,7 +37121,7 @@ int main() {
 }
 
 
-std::complex<float>* FFT::DFT(std::complex<float> coords[], const size_t array_length, int degree_n){
+std::complex<float>* FFT::DFFT::DFT(std::complex<float> coords[], const size_t array_length, int degree_n){
  int K = std::min(degree_n, array_length);
 
  std::complex<float>* w = FFT::prim_root(K,array_length);
@@ -37152,7 +37143,7 @@ std::complex<float>* FFT::DFT(std::complex<float> coords[], const size_t array_l
  return F_coeff;
 }
 
-std::complex<float>* FFT::prim_root(int n, int radical){
+std::complex<float>* FFT::DFFT::prim_root(int n, int radical){
 
 
 
