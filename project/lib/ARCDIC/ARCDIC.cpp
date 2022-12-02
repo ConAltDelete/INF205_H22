@@ -16,13 +16,14 @@ float radius_detect(coords A, coords B, coords P) {
 	return arc_radius(høyde, bredde);
 }
 
+// Weighting
 float w(int x, int y) {
 	float scale = 1/(2*PI);
 	float p = std::exp(-(x*x + y*y)/2);
 	return scale*p;
 }
 
-
+// dir derivative, bool : transpose or not. 
 float I(bool x_dir, std::vector<coords> c) {
 	/*if(x_dir){
 		auto f = [](int a,int b){return a+3*b;};
@@ -145,6 +146,7 @@ float quad_solve(bool pos, float points[4]){
 	return top/2;
 }
 
+// makes matrix and tries to find smallest eigenvalue. corner/arc detect.
 std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/) { //! kan ikke bruke float[4]
 	/*
 	 * The vectors form a 3x3 area
@@ -194,7 +196,7 @@ std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/)
 
 		Mat.push_back(l_min);
 	}
-	return Mat;
+	return Mat; //-rix
 }
 
 std::vector<int> find_corners(std::vector<coords> blob, float limit) {
@@ -211,6 +213,7 @@ std::vector<int> find_corners(std::vector<coords> blob, float limit) {
 	return corners;
 }
 
+// doc: write about special case that we don't account for
 coords cal_center(coords A, coords B,coords P){
 	coords delta_2 = B-A;
 	coords delta_3 = P-A;
