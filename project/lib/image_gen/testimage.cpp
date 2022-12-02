@@ -2,11 +2,13 @@
 #include<sys/time.h>
 #include"image.h"
 
+/*
 int ranged_rand (int range, int offset){
 	struct timeval timenow;
 	gettimeofday (&timenow, NULL);
 	srand(timenow.tv_usec);
 }
+*/
 
 int main(){
 
