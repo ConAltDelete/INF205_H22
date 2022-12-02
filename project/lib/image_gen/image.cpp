@@ -43,7 +43,7 @@ int image::circle (int origin_x, int origin_y, int r){
 		for (int y=ymin; y<=ymax; y++){
 
 			double d = std::pow(x - origin_x,2)+std::pow(y - origin_y,2);
-			if (d<=r){
+			if (d<=std::pow(r,2)){
 				set_point(x,y,'1');
 			}
 		}
