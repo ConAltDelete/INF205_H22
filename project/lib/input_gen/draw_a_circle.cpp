@@ -1,3 +1,5 @@
+// DEPRECATED
+
 #include<iostream>
 #include<fstream>
 #include<sys/time.h>

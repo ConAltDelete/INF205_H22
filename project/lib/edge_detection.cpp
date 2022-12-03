@@ -1,17 +1,5 @@
 #include"coordstruct.h"
 
-// create array/string/whatever
-
-// read pbm array, ie skip P6 [size] and then start reading everything eycept spaces I guess?
-
-// go through points and apply magic
-
-// if a point matches the magic, add to array
-
-// repeat the above until you're out of points? (how to detect..)
-
-// assume we have gathered all points in vector<coords> in some fashion
-
 coords get_next_dir(coords A, coords B) {
 	/*
 	 *	Gets the unit direction A -> B
@@ -24,6 +12,8 @@ coords get_next_dir(coords A, coords B) {
 	x = diff.x + diff.y;
 	y = -diff.x + diff.y;
 
+
+/// ADD CHECK FOR 0 bc we can't div by 0
 	x = diff.x / std::abs(diff.x);
 	y = diff.y / std::abs(diff.y);
 
