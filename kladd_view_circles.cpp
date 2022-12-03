@@ -20,7 +20,7 @@ ofstream fcircle("circles.txt");
 
 for (int i = 0; i < 5; i++) {
     ++x, ++y, ++r;
-    fcircle <<x<<" "<<y<<" "<<r<<" "<<ps_circle<<"\n";
+    fcircle <<x<<' '<<y<<' '<<r<<' '<<ps_circle<<"\n";
 }
 
 fcircle.close();
