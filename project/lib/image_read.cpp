@@ -6,6 +6,4 @@ std::vector<coords> read_image(std::string image_path){
 	std::string header; 
 	
 	image.getline(header); // getting head of file
-	
-
 }
