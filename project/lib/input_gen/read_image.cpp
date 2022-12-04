@@ -20,10 +20,10 @@ int read_file(std::string file_path){
 	char* delim = " ";
 	char* ptr_tracker;
 
-	strtok_r(line,delim,&ptr_tracker); // tolkenizing... needs to be checked.
+	strtok_r(line,delim,&ptr_tracker); // tokenizing... needs to be checked.
 
-	image_size.push_back(strtok_s(NULL,delim,&ptr_tracker));
-	image_size.push_back(strtok_s(NULL,delim,&ptr_tracker));
+	image_size.push_back(std::strtok_s(NULL,delim,&ptr_tracker));
+	image_size.push_back(std::strtok_s(NULL,delim,&ptr_tracker));
 
 	std::getline(file,line); // data is on one line.
 	
