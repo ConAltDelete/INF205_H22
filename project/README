@@ -1,7 +1,4 @@
-Pixel to Circles
+Pixels to Circles
 
-In the folder lib is all our files. To compile source files go to lib folder and type
-```
-make do_everything	
-```
-It should read "image.pbm" file in the same folder and make a "circles.ps" file which is a PostScript file.
+All our files are in the directory lib/, and the documentation is in docs/. The makefile in lib/ compiles everything.
+The resulting files from running the program should be "image.pbm" and "circles.ps".
