@@ -1,1 +1,0 @@
-edge_detection works fine, it's just not called by anything and lacks a main() to make it tick.
