@@ -128,6 +128,20 @@ void image::set_point (int x, int y, char colour){
 		\end{algorithmic}
 	\end{algorithm}
 
+	\subsection{Exceptions}
+	There are cases where the shape has no corners, and therefore won't be picked up by the algorithm. To combat this we will look for how many corners it has discovered; If there are less than 2, then we assume that it must be a circle. To calculate this we use the three point formula to find center, and radius.
+
+	The three-point formula:
+	$$
+		R = \frac{W}{8H} + \frac{H}{2}
+	$$
+	Where W is the width, and H is the hight. And the center point formula for three points are:
+	\begin{align*}
+		\delta_2 &= B-A \\
+		\delta_3 &= P-A \\
+		x_c &= A_x + \frac{\delta_{2x}^2\delta_{3y} - \delta_{3x}^2\delta_{2y} + \delta_{2y}^2\delta_{3y} - \delta_{3x}^2\delta_{2y}}{2*(\delta_{2x}\delta_{3y} - \delta_{3x}\delta_{2y})}\\
+		y_c &= A_y + \frac{\delta_{2x}^2\delta_{3x} - \delta_{3x}^2\delta_{2x} + \delta_{2y}^2\delta_{3x} - \delta_{3x}^2\delta_{2x}}{2*(\delta_{3x}\delta_{2y} - \delta_{2x}\delta_{3y})}\\
+	\end{align*}
 
 
 	\section{Image viewer}
