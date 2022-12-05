@@ -4,7 +4,7 @@
 #include <string>
 #include "coordstruct.h"
 
-std::vector<coords> read_file ( std::string filename )
+std::vector<coords> read_file ( std::string filename, int &h,int &w )
 {
     int width, height;
     std::ifstream in;
@@ -48,6 +48,7 @@ std::vector<coords> read_file ( std::string filename )
     }
 
     // Generate coord pairs for all the points where pixel value is '1'
+    h = height; w = width;
     std::vector<coords> result;
     for ( int y=0; y<height; y++ )
         for ( int x=0; x<width; x++ )

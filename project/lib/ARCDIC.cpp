@@ -2,6 +2,7 @@
 
 
 float arc_radius(float H, float W) {
+	std::cout << "finding arcradius.\n";
 	return (W / (8*H) + H/2);
 }
 
@@ -94,7 +95,7 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int size, int &back_ref, int &front_ref) {
 	int back = index, front = index;
 	bool back_found = false, front_found = false; 
-	
+	std::cout << "getting neigborhood...\n";
 	int search_area = 0;
 	coords attempt;
 
@@ -127,6 +128,7 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 
 	std::vector<coords> hood;
 	for(int i = std::min(back,front); i <= std::max(front,back); i++) hood.push_back(contour[i]);
+	std::cout << "found neigborhood...\n";
 
 	return hood;
 }
@@ -152,6 +154,7 @@ std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/)
 
 	std::vector<coords> c_hood, c_hood_small, c_hood_large;
 
+	std::cout << "getting eigen values...\n";
 	float I_x, I_y;
 	float l_min,l1,l2;
 
@@ -194,6 +197,7 @@ std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/)
 
 		Mat.push_back(l_min);
 	}
+	std::cout << "Found eigen values.\n";
 	return Mat;
 }
 
@@ -201,6 +205,8 @@ std::vector<int> find_corners(std::vector<coords> blob, float limit) {
 	/*
 	 * returns a vector with indexes for corners.
 	 */
+
+	std::cout << "getting corners...\n";
 	std::vector<float> lambdas =  A_eigen(blob);
 	std::vector<int> corners;
 	for(int i = 0; i < blob.size(); i++){
@@ -208,10 +214,12 @@ std::vector<int> find_corners(std::vector<coords> blob, float limit) {
 			corners.push_back(i);
 		}
 	}
+	std::cout << "found corners...\n";
 	return corners;
 }
 
 coords cal_center(coords A, coords B,coords P){
+	std::cout << "calculating centers...\n";
 	coords delta_2 = B-A;
 	coords delta_3 = P-A;
 	double xtop = delta_2.x*delta_2.x*delta_3.y - delta_3.x*delta_3.x*delta_2.y + delta_2.y*delta_2.y*delta_3.y - delta_3.x*delta_3.x*delta_2.y;
@@ -219,10 +227,13 @@ coords cal_center(coords A, coords B,coords P){
 
 	int xc = A.x + xtop/(2*(delta_2.x*delta_3.y - delta_3.x*delta_2.y));
 	int yc = A.x + ytop/(2*(delta_3.x*delta_2.y - delta_2.x*delta_3.y));
+	std::cout << "found centers.\n";
 	return coords{xc,yc};
 }
 
 std::vector<Circle> find_circles(std::vector<coords> blob, float limit){
+	
+	std::cout << "finding circles...\n";
 	std::vector<int> indexes_corners = find_corners(blob,limit);
 
 	coords A,B,P, cent;
@@ -240,5 +251,6 @@ std::vector<Circle> find_circles(std::vector<coords> blob, float limit){
 
 		ret.push_back(Circle{cent.x,cent.y,r});
 	}
+	std::cout << "found circles.\n";
 	return ret;
 }
