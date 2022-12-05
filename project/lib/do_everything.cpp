@@ -5,14 +5,10 @@
 #include "view_circles.cpp"
 #include <tuple>
 
-void intersection(std::vector<coords> &S1, std::vector<coords> &S2){
-	for(auto c: S2){
-		S2.erase(std::find(S2.begin(),S2.end(),c));
-	}
-}
-
 coords max_right(std::vector<coords> cont, coords point){
-	
+	/*
+	 * Finds the point that is the oposit to current point.
+	 * */
 	coords max_point = coords{0,0};
 	for(auto p : cont){
 		if(p.x >= max_point.x && p.y == point.y){
@@ -23,6 +19,9 @@ coords max_right(std::vector<coords> cont, coords point){
 }
 
 coords coords_mod(coords p,int max_h,int max_w){
+	/*
+	 * Constrains a point p to a box with width max_w, and hight max_h.
+	 * */
 	coords new_p = p;
 	if(new_p.x >= max_w){
 		//std::cout << "Wall hit at x =" << new_p.x << "! y = " << new_p.y <<"\n";
@@ -72,7 +71,6 @@ int main(){
 		}
 		curr = coords_mod(curr + coords{1,0}, hight,length);
 		pre = curr - coords{1,0};
-		//std::cout << "current point: {" << curr.x << ", " << curr.y << "}\n";
 	}
 
 	std::cout << "Found all blobs!\n";

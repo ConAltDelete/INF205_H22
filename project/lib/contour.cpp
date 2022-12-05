@@ -13,8 +13,6 @@ coords get_next_dir(coords A, coords B) {
 	y = -diff.x + diff.y;
 
 
-/// ADD CHECK FOR 0 bc we can't div by 0
-
 	if(x != 0){
 		x /= std::abs(x);
 	}
@@ -22,26 +20,13 @@ coords get_next_dir(coords A, coords B) {
 		y /= std::abs(y);
 	}
 
-	/*
-	if (x != 0 && y != 0){
-		x = x / std::abs(x);
-		y = y / std::abs(y);
-	} else {
-		if (x == 0){
-			x = 0;
-			y = y / std::abs(y);
-		} else {
-			x = x / std::abs(x);
-			y = 0;
-		}
-	
-	}
-	*/		
-
 	return coords{x,y};
 }
 
 std::vector<coords> contour(std::vector<coords> image, coords start_point /*start point is a non-zero piyel*/, coords pre_point){
+	/*
+	 * Finds the contour of a shape.
+	 * */
 	coords term_point = start_point; // start, and end
 	coords current = start_point;
 
