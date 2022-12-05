@@ -176,7 +176,7 @@ coords cal_center(coords A, coords B,coords P){
 	return coords{xc,yc};
 }
 
-std::vector<Circle> find_circles(std::vector<coords> blob, float limit){
+std::vector<Circle> find_circles(std::vector<coords> blob, float limit, std::vector<coords> image){
 	/*
 	 * Finds circles on an shape by looking on the contour of it.
 	 * */
@@ -184,21 +184,44 @@ std::vector<Circle> find_circles(std::vector<coords> blob, float limit){
 	std::vector<int> indexes_corners = find_corners(blob,limit);
 
 	std::cout << "Found " << indexes_corners.size() << " corners!\n";
-	coords A,B,P, cent;
+	coords A,B,P, cent, mid;
 	float r;
+	int col;
 
 	std::vector<Circle> ret;
+	if(indexes_corners.size() > 1){
+		for(int i = 0;indexes_corners.size() > 0 && i < indexes_corners.size()-1 ;i++){
+			A = blob[indexes_corners[i]];
+			B = blob[indexes_corners[i+1]];
+			mid = coords{(A.x + B.x)/2,(A.y+B.y)/2};
+			P = blob[(int)((indexes_corners[i] + indexes_corners[i+1])/2)];
+			r = radius_detect(A,B,P);
 
-	for(int i = 0;indexes_corners.size() > 0 && i < indexes_corners.size()-1 ;i++){
-		A = blob[indexes_corners[i]];
-		B = blob[indexes_corners[i+1]];
-		P = blob[(int)((indexes_corners[i] + indexes_corners[i+1])/2)];
+			cent = cal_center(A,B,P);
+			if(std::find(image.begin(),image.end(),mid) != image.end()){ // checks if convex
+				col = 0;
+			} else {
+				col = 1;
+			}
+			if(cent.x >= 0 && cent.y >= 0){
+				ret.push_back(Circle{cent.x,cent.y,r,col});
+			}
+		}
+	} else { // since there is no corners then we assume it must be a circle.
+		A = blob[0];
+		P = blob[blob.size()/3];
+		B = blob[(blob.size()/3) * 2];
+		mid = coords{(A.x + B.x)/2,(A.y+B.y)/2};
 		r = radius_detect(A,B,P);
-
 		cent = cal_center(A,B,P);
+		if(std::find(image.begin(),image.end(),mid) != image.end()){// checks if convex
 
+			col = 0;
+		} else {
+			col = 1;
+		}
 		if(cent.x >= 0 && cent.y >= 0){
-			ret.push_back(Circle{cent.x,cent.y,r});
+			ret.push_back(Circle{cent.x,cent.y,r,col});
 		}
 	}
 	std::cout << "found circles.\n";

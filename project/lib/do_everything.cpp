@@ -77,7 +77,7 @@ int main(){
 
 	for(auto b : blobs){
 		std::cout << "current label: " << std::get<0>(b) << "\n";
-		found = find_circles(std::get<1>(b),0.2);// ARCDIC.cpp
+		found = find_circles(std::get<1>(b),0.2,image_binary);// ARCDIC.cpp
 		circles.insert(circles.end(),found.begin(),found.end());
 	}
 	draw_circle(circles);								// view_circles.cpp

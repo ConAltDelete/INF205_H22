@@ -21,6 +21,6 @@ float quad_solve(bool pos, float points[4]);
 std::vector<float> A_eigen(std::vector<coords> c);
 std::vector<int> find_corners(std::vector<coords> blob, float limit);
 coords cal_center(coords A, coords B,coords P);
-std::vector<Circle> find_circles(std::vector<coords> blob, float limit);
+std::vector<Circle> find_circles(std::vector<coords> blob, float limit,std::vector<coords> image);
 
 #endif

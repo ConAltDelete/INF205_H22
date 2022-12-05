@@ -29,6 +29,7 @@ struct Circle {
 	int x;
 	int y;
 	float R;
+	int colour = 0;
 };
 
 

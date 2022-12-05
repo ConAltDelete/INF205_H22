@@ -5,6 +5,9 @@
 #include "coordstruct.h"
 
 std::vector<coords> read_file ( std::string filename, int &h,int &w )
+	/*
+	 * Reads an pbm file and converts it to a vector of coordiantes.
+	 * */
 {
     int width, height;
     std::ifstream in;
@@ -58,19 +61,3 @@ std::vector<coords> read_file ( std::string filename, int &h,int &w )
     // Deliver result and close shop
     return result;
 }
-
-/*
-int main ( int argc, char **argv )
-{
-    if ( argc == 1 )
-    {
-        std::cerr << "I need a pbm filename as argument" << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    std::vector<coords> punktliste = read_file ( argv[1] );
-    for ( coords c : punktliste )
-        std::cout << c.x << "," << c.y << std::endl;
-    return EXIT_SUCCESS;
-}
-*/
