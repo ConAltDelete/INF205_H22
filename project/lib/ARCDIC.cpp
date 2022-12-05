@@ -67,8 +67,14 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 	while(!back_found || !front_found) {
 		if(!back_found){
 			back--;
-			attempt = contour[back<0 ? contour.size() - back : back];
-			if( std::sqrt(attempt.x*attempt.x + attempt.y*attempt.y) > break_limit ){
+			if(back < 0){
+				back = contour.size() + back;
+			}
+			if(back >= contour.size()){
+				back = back - contour.size();
+			}
+			attempt = contour[back];
+			if( attempt.x*attempt.x + attempt.y*attempt.y > break_limit*break_limit ){
 				back++;
 				back_found = true;
 			}
@@ -76,15 +82,25 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 	
 		if(!front_found){
 			front++;
-			attempt = contour[front>contour.size() ? front - contour.size() : front];
-			if( std::sqrt(attempt.x*attempt.x + attempt.y*attempt.y) > break_limit ){
+			if(front < 0){
+				front = contour.size() + front;
+			}
+			if(front >= contour.size()){
+				front = front - contour.size();
+			}
+			attempt = contour[front];
+			if( attempt.x*attempt.x + attempt.y*attempt.y > break_limit*break_limit ){
 				front--;
 				front_found = true;
 			}
 		}
 	}
-	back = back<0 ? contour.size() - back : back;
-	front = front >= contour.size() ? front - contour.size() : front;
+	if(back < 0){
+		back = contour.size() + back;
+	}
+	if(front >= contour.size()){
+		front = front - contour.size();
+	}
 
 	std::vector<coords> hood;
 	for(int i = std::min(back,front); i <= std::max(front,back); i++) hood.push_back(contour[i]);
@@ -104,7 +120,13 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 	while(!back_found || !front_found) {
 		if(!back_found){
 			back--;
-			attempt = contour[back<0 ? contour.size() - back : back];
+			if(back < 0){
+				back = contour.size() + back;
+			}
+			if(back >= contour.size()){
+				back = back - contour.size();
+			}
+			attempt = contour[back];
 			if( std::sqrt(attempt.x*attempt.x + attempt.y*attempt.y) > break_limit ){
 				back++;
 				back_found = true;
@@ -113,7 +135,13 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 	
 		if(!front_found){
 			front++;
-			attempt = contour[front>contour.size() ? front - contour.size() : front];
+			if(front < 0){
+				front = contour.size() + front;
+			}
+			if(front >= contour.size()){
+				front = front - contour.size();
+			}
+			attempt = contour[front];
 			if( std::sqrt(attempt.x*attempt.x + attempt.y*attempt.y) > break_limit ){
 				front--;
 				front_found = true;
@@ -173,7 +201,7 @@ std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/)
 			}
 		}
 		for(int f = c_hood_large.size()-1; f > 0; f-- ){
-			if(c_hood_large[f] == *c_hood_small.end()){
+			if(c_hood_large[f] == *(c_hood_small.end()-1)){
 				last_index = f;
 				break;
 			}
@@ -182,7 +210,7 @@ std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/)
 		float Is[4];
 
 		for(int j = first_index; j <= last_index; j++){
-			c_hood = get_neighborhood(c_hood_large, j, 1);
+			c_hood = get_neighborhood(c, j, 1);
 			I_x = I(true,c_hood);
 			I_y = I(false, c_hood);
 			Is[0] = I_x*I_x;
