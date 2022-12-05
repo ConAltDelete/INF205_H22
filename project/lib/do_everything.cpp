@@ -14,9 +14,8 @@ void intersection(std::vector<coords> &S1, std::vector<coords> &S2){
 coords max_right(std::vector<coords> cont, coords point){
 	
 	coords max_point = coords{0,0};
-	//float min_dist = FLT_MAX;
 	for(auto p : cont){
-		if(p.x >= max_point.x && p.y == point.y/* && std::abs(p.x - max_point.x) <= min_dist*/){
+		if(p.x >= max_point.x && p.y == point.y){
 			max_point = p;
 		}
 	}

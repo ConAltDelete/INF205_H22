@@ -148,9 +148,12 @@ std::vector<coords> get_neighborhood(std::vector<coords> contour, int index, int
 			}
 		}
 	}
-	back = back<0 ? contour.size() - back : back;
-	front = front >= contour.size() ? front - contour.size() : front;
-
+	if(back < 0){
+		back = contour.size() + back;
+	}
+	if(front >= contour.size()){
+		front = front - contour.size();
+	}
 	back_ref = back;
 	front_ref = front;
 

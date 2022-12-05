@@ -1,6 +1,7 @@
 #ifndef ARC_DIC
 #define ARC_DIC
 
+#include "coordstruct.h"
 #include <iostream>
 #include <complex>
 #include <cmath>
