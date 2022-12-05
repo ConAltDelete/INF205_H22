@@ -1,49 +1,84 @@
 \documentclass{article}
 
-
 \usepackage{amsmath}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+\usepackage{hyperref}
 \usepackage{float}
+\usepackage{listings}
+
 
 \title{Pixel to circles project}
-\author{Mats Hoem Olsen, Katla Marie Mayer, Oda Johanne Matre Simensen}
+\author{Mats Hoem Olsen, Katla Mária Meyer, Oda Johanne Matre Simensen}
 
 \begin{document}
 	\maketitle
 	\tableofcontents
 	\listofalgorithms
 	\begin{abstract}
-		We designed a code that converted a pixelated image to a vector based image using Moors contour algorithm, Harris corner detector, and Postscript\texttrademark. 
+		We describe our implementation in modern C++ of converting raster images of overlapping discs to a vector-based format, using Moore's neighbour tracing algorithm for finding contours, Harris' corner detector, and Postscript\textsuperscript{\textregistered}. 
 	\end{abstract}
 	\newpage
 
-
 	\section{Problem}
-	As an input, a two-dimensional image or landscape is given by an a x a square of black-and-white pixels.
+	As input, we are to generate a square two-dimensional landscape of overlapping circular discs. We chose to use only binary colour data. We are then to create an image processing implementation which can read the image and output a representation of the discs as sets of origin coordinates, radii, and colour indices.
 
-	Your code should create an approximation of this landscape by a set of superimposed circular disks. It should aim at the best possible accuracy for a given maximum number of circular disks that can be varied as part of the input. It should also be able to generate a lossless representation of the image/landscape using an unlimited number of circular disks.
+	\subsection{Assumptions}
+	We assumed all raster points to have values 1 or 0. Visually, this is rendered as white and black respectively. We used the .pbm file format\cite{pbm} to store our raster image, making sure our image reading module did account for the variable amount of information a .pbm image's header can contain.
+	
+	We also assumed circles could not be centered outside the image, as our generator makes no such circles, and we have not proofed our processing stage to reliably reconstruct such circles either.
 
-	\subsection{assumptions}
-	Assume that each pixel is b/w, that is either completely black (colour value 0) or completely white (colour value 1), not on a greyscale in between.
+	\section{Image generation}
+	The image generation module of the project (\texttt{image\_gen/}) was made to generate plain white square images, and then draw a given number of superimposed discs of random radii and positions.
+	This allowed us to quickly and conveniently generate however many varied images we needed.
+	We decided to leave this module separate and independently executable from the rest of the project, as the origin of the image used did not in principle matter to the function of the project as a whole.
+	
+	We did consider parallelizing the image generator using some MPI solution, such as openMPI. We may have opted to use some dynamic system of load balancing, allowing separate processes to write separate circles so long as they did not immediately intersect (thus avoiding a race condition), but the scale of the project and the relatively small number of circles we were intending to use meant this would not save any significant amount of time or resources.
+		
+	The image class (\texttt{image.cpp}) allocates a continuous space for the image in the heap upon construction, and deallocates it again afterwards. The image is initialized full of '0', such that it appears white.
+	This space gives each raster point one char to fill, which we deemed reasonably effective as chars typically only take up a byte each.
+	Writing bitwise was an option and would have been even more space-efficient, but we avoided it as we would have had to create our own memory traversal method, possibly at the cost of efficiency.
+	In addition to the constructor and destructor, it features functions for setting any raster point to a value 0/1, drawing a circle at a given origin, and saving the raster image to a .pbm file. From \texttt{image.cpp}:
+	
+	\begin{lstlisting}
+image::image(int width, int height){
+	this->pixels = new char[width*height];
+	this->width = width;
+	this->height = height;
+				
+	for (int i = 0; i < (width*height); i++){
+		this->pixels[i] = '0';}
+}
 
-	Have your code produce a sequence of m circular discs 0 ≤ i < m, each with two coordinates of the centre, a radius, and a colour value ci, that compresses the pixel-based representation. The conversion back from the vector representation to the pixel representation could look as follows. For all pixel coordinates (0, 0) to (a-1, a-1): Initialize the pixel colour to black. Then, iteratively for all i from 0 to m-1, whenever the pixel coordinates are inside circle i, update the pixel colour to ci.
+image::~image(void){
+	delete[] this->pixels;}
+	\end{lstlisting}
 
-	Agreement between the original and the compressed version can be quantified by the fraction of pixels for which the algorithm above reconstructs the original colour value of the pixel correctly. In the case of a lossless compression, the two versions should agree for all pixels.
+	As the image buffer in heap (here called "pixels") is allocated simply as a space in memory, we do our own quick calculations to get the abstraction of two-dimensional space when allocating a point. For image generation, we do not require retrieving information from any specific point, but the same logic would be used. From \texttt{image.cpp}:
+	\begin{lstlisting}
+void image::set_point (int x, int y, char colour){
+	this->pixels[(y * this->width + x)] = colour;
+}
+	\end{lstlisting}
+	
+	The \texttt{draw\_circle()} function scans line-by-line through the radius\textsuperscript{2} square area around the circle's origin, checking the distance from each pixel to the circle origin. This leaves us with a constant 21.5\% inefficiency checking points we do not manipulate, which scales with the circle size instead of the unrelated image size.
+		
+	For the randomization of disc position and radius, we scaled seeded pseudo-random values to be within minimum and maximum constraints: For position, the contours of the image, and for radius an arbitrary min/max size. We seeded \texttt{rand()} using the current microsecond \texttt{tv\_usec}, retrieved from \texttt{sys/time.h}, which we thought to be sufficiently unpredictable for this application.
+	We did not randomize colour, drawing discs alternatingly in black and in white.
 
-	You can deviate from the default recommendations; follow them just if you do not see any good reason not to.
-
-	\section{Edge detector}
-	The edge detector algorithm is composed of the following algortithm:
+	\section{Contour detector}
+	
+	The contour detection algorithm comprises the following:
+	
 	\begin{algorithm}[H]
 		\caption{Contour algorithm}
 		\begin{algorithmic}
-			\State $P_0 \gets$ first pixel of an shape
-			\State $P_{-1} \gets$ previous pixel
+			\State $P_0 \gets$ First pixel of a shape
+			\State $P_{-1} \gets$ Previous pixel
 			\State $P_n \gets P_0$
 			\State $C$ is the contour of the shape
 			\While{$P_n \neq P_0$}
-				\State $P_{-1} \gets$ look anti-clockwise from $P_{-1}$
+				\State $P_{-1} \gets$ Look anti-clockwise from $P_{-1}$.
 				\If{$P_{-1}$ is foreground}
 					\State $C\gets P_{-1}$
 					\State Swap label $P_{-1}$ and $P_n$
@@ -52,18 +87,27 @@
 			\State \Return C
 		\end{algorithmic}
 	\end{algorithm}
-	This algorithm will trace the contour for one blob, but this will be used multiple times until we hit the lower right corner of the image. The foreground pixels will be stored in a coordinate structure that stores x, and y coordinates. 
+	This algorithm will trace the contour of one blob at a time, and we apply the algorithm repeatedly until we hit the lower right corner of the image.
+	We assume that pixels of value 1 belong to the foreground, and 0 to the background. Pixels are stored in a vector coordinate structure that contains x and y coordinates for all foreground pixels.
+	Depending on image size and how much of the given image is 0/1, the resulting memory use will vary.
+	A more advanced implementation could index both 0 and 1 pixels initially, treating the colour with the least pixels as the foreground and saving only this.
 
-	\section{Harris Corner detector}
-	The Harris corner detector is used to find all the corners in an image (which in our case is the contour of one blob). The algorithm uses the eigen values from the first directional derivative matrix
+	\subsection{Exceptions for enclosed shapes}
+
+	There are certain cases that our code does not account for. Namely, any hole or shape in a whole enclosed within a blob is going to be ignored because the seeking algorithm for finding further blobs skips from the left to the right side of the current blob when re-encountering it.
+
+	\section{Harris' corner detector}
+	The Harris corner detector algorithm is used to find all the corners in an image. We apply it to one blob contour at a time.
+	The algorithm uses the eigenvalues from the first directional derivative matrix
 	$$
 		M = \left[\begin{matrix}
 		I_x^2 & I_xI_y \\
 		I_yI_x & I_y^2
-\end{matrix}\right]
+	\end{matrix}\right]
 	$$
-	After calculating the smallest eigen value for every point along the path it uses a simple threshold to determine if an eigen value is large enough to be considered a corner, or anything else. 
-	The algorithm used is
+	After calculating the smallest eigenvalue for every point along the path, we apply a threshold to determine if the eigenvalue is large enough to be considered a corner.
+		
+	The algorithm we use is:
 	\begin{algorithm}
 		\caption{Harris corner detector}
 		\begin{algorithmic}
@@ -72,8 +116,8 @@
 			\ForAll{Points in picture}
 				\State Calculate $I_x$ and $I_y$
 				\State Make M matrix
-				\State Find the smallest Eigen value
-				\State $\lambda \gets$ eigen value
+				\State Find the smallest Eigenvalue
+				\State $\lambda \gets$ Eigenvalue
 			\EndFor
 			\ForAll{points in $\lambda$}
 				\If{point > limit}
@@ -83,7 +127,21 @@
 			\State \Return C
 		\end{algorithmic}
 	\end{algorithm}
+
+
+
 	\section{Image viewer}
-	To store the circles we have found in the image, we choose to use the language Postscript since it has simple enough syntax to export it, and convert it to other file formats that support vector graphics. The command we will be using is "arc fill". This command will take inn x,y coordinates, a radius, and angle of the arc. The "fill" command just uses watershed algorithm to fill inn the circle with black.
+	As our final step, after we have extracted origin points and radii from our circles and stored them as 3 values, we wish to also store and draw them more permanently.
+	For this purpose, we chose to use the language Postscript, since it has simple syntax and is relatively easy to convert to other file formats that support vector graphics.
+	We use the command "arc fill", which takes x,y coordinates, radii, and arc angles. The "fill" command just uses a watershed algorithm to fill inn the circle with solid colour. The colour can be specified through the function \texttt{setgray}, which allows us to reconstruct both black and white discs just like we had during generation.
+	
+	At this point, we have reduced each circle down to just 3 data points, using a Circle struct derived from our coords struct with an added radius data point, placed inside vectors for potential mass storage. As we do not need to find any specific circles, only list all of them, the difficulties of traversing a mutable list do not stand out as major a issue.
+
+
+\begin{thebibliography}{1}
+		
+	\bibitem{pbm} \textit{The PBM Format}, \href{url}{https://netpbm.sourceforge.net/doc/pbm.html}, retrieved 2022-12-05.
+
+\end{thebibliography}
 
 \end{document}
