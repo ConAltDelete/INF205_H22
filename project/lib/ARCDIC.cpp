@@ -84,7 +84,7 @@ float quad_solve(bool pos, float points[4]){
 	return top/2;
 }
 
-std::vector<float> A_eigen(std::vector<coords> c /*the entire contour of blob*/) {
+std::vector<float> A_eigen(std::vector<coords> c ) {	// <- The entire contour of a given blob
 	/*
 	 * The vectors from a 3x3 area
 	 * */
