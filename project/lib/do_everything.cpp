@@ -11,12 +11,12 @@ void intersection(std::vector<coords> &S1, std::vector<coords> &S2){
 	}
 }
 
-int max_left(std::vector<coords> cont, coords point){
+coords max_right(std::vector<coords> cont, coords point){
 	
-	int max_point = 0;
-	for(int i = 0; i < cont.size(); i++){
-		if(cont[i].x == point.x && cont[i].y > cont[max_point].y){
-			max_point = i;
+	coords max_point = coords{0,0};
+	for(auto p : cont){
+		if(p.x > point.x && p.y == point.y){
+			max_point = p;
 		}
 	}
 	return max_point;
@@ -24,11 +24,13 @@ int max_left(std::vector<coords> cont, coords point){
 
 coords coords_mod(coords p,int max_h,int max_w){
 	coords new_p = p;
-	if(p.x >= max_w){
+	if(new_p.x >= max_w){
+		std::cout << "Wall hit at x =" << new_p.x << "! y = " << new_p.y <<"\n";
 		new_p.x = 0;
 		new_p.y++;
 	}
-	if(p.y >= max_h){
+	if(new_p.y >= max_h){
+		std::cout << "floor hit at y = " << new_p.y << "! x= " << new_p.x << "\n";
 		new_p.y = 0;
 	}
 	return new_p;
@@ -43,15 +45,18 @@ int main(){
 	std::vector<std::tuple<int,std::vector<coords>>> blobs;
 	std::vector<Circle> circles,found;
 	
-	int label = 0;
+	int pre_label = -1,label = 0;
 
 	std::cout << "read image, size: " << image_binary.size() << "\n"; 
 
 	while(!(curr == coords{length-1,hight-1})){
-		std::cout << "Current label: " << label << "\n";
+		if(label != pre_label){
+			std::cout << "current label: " << label << "\n";
+			pre_label = label;
+		}
 		for(auto  p: blobs){
 			if(std::find(std::get<1>(p).begin(),std::get<1>(p).end(),curr) != std::get<1>(p).end()){
-				curr = std::get<1>(p)[max_left(std::get<1>(p),curr)];
+				curr = max_right(std::get<1>(p),curr);
 				curr = coords_mod(curr + coords{2,0}, hight,length);
 				pre = curr - coords{1,0};
 				continue;
@@ -59,7 +64,7 @@ int main(){
 		}
 		if(std::find(image_binary.begin(),image_binary.end(),curr) != image_binary.end()){
 			img_contour = contour(image_binary,curr,pre);
-			curr = img_contour[max_left(img_contour,curr)];
+			curr = max_right(img_contour,curr);
 			curr = coords_mod(curr + coords{2,0}, hight,length);
 			pre = curr - coords{1,0};
 			blobs.push_back(std::tuple<int,std::vector<coords>>{label,img_contour});
@@ -67,7 +72,7 @@ int main(){
 		}
 		curr = coords_mod(curr + coords{1,0}, hight,length);
 		pre = curr - coords{1,0};
-		std::cout << "current point: {" << curr.x << ", " << curr.y << "\n";
+		//std::cout << "current point: {" << curr.x << ", " << curr.y << "}\n";
 	}
 
 	std::cout << "Found all blobs!\n";
