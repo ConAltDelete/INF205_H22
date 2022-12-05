@@ -2,3 +2,4 @@ Pixels to Circles
 
 All our files are in the directory lib/, and the documentation is in docs/. The makefile in lib/ compiles everything.
 The resulting files from running the program should be "image.pbm" and "circles.ps".
+image_gen/ holds the tools to generate new images, and is the part of our project that uses manual memory allocation.
