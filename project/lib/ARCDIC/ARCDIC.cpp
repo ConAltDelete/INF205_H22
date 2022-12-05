@@ -1,5 +1,5 @@
 #include "ARCDIC.h"
-
+#include "coordstruct.h"
 
 float arc_radius(float H, float W) {
 	return (W / (8*H) + H/2);

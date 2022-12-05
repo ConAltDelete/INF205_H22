@@ -16,8 +16,8 @@ int main(){
 	image my_image(400, 400);
 
 	for (int i=0;i<10;i++){
-		my_image.circle(ranged_rand(200,0),ranged_rand(200,0),ranged_rand(20,2),'1');
-		my_image.circle(ranged_rand(200,0),ranged_rand(200,0),ranged_rand(20,2),'0');
+		my_image.circle(ranged_rand(200,0),ranged_rand(200,0),ranged_rand(50,2),'1');
+		my_image.circle(ranged_rand(200,0),ranged_rand(200,0),ranged_rand(50,2),'0');
 	}
 
 	my_image.save("image.pbm");

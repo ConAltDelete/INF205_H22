@@ -5,31 +5,9 @@
 #include <complex>
 #include <cmath>
 #include <vector>
-#include<algorithm>
+#include <algorithm>
 
-#define PI 2.0*std::arccos(0.0)
-
-struct coords{
-	int x;
-	int y;
-
-	bool operator==(coords const &a){
-		return (this->x == a.x) && (this->y == a.y);
-	}
-
-	coords operator+(coords const &a){
-		return coords{this->x + a.x,this->y + a.y};
-	}
-	coords operator-(coords const &a){
-		return coords{this->x - a.x,this->y - a.y};
-	}
-};
-
-struct Circle {
-	int x;
-	int y;
-	float R;
-};
+#define PI 2.0*std::acos(0.0)
 
 float arc_radius(float H, float W);
 float radius_detect(coords A, coords B, coords P);

@@ -12,22 +12,8 @@ coords get_next_dir(coords A, coords B) {
 	x = diff.x + diff.y;
 	y = -diff.x + diff.y;
 
-
-/// ADD CHECK FOR 0 bc we can't div by 0
-
-	if (diff.x != 0 && diff.y != 0){
-		x = diff.x / std::abs(diff.x);
-		y = diff.y / std::abs(diff.y);
-	} else {
-		if (diff.x == 0){
-			x = 0;
-			y = diff.y / std::abs(diff.y);
-		} else {
-			x = diff.x / std::abs(diff.x);
-			y = 0;
-		}
-	
-	}		
+	x = diff.x / std::abs(diff.x);
+	y = diff.y / std::abs(diff.y);
 
 	return coords{x,y};
 }

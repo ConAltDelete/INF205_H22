@@ -1,4 +1,4 @@
 CXXFLAGS=-g
 
-testimage: testimage.cpp image.o
+generate_image: generate_image.cpp image.o
 image.o: image.cpp image.h

@@ -11,9 +11,9 @@ float radius_detect(coords A, coords B, coords P) {
 	
 	float d = 1/bredde;
 
-	float høyde = std::abs((B.x-A.x)*(A.y-P.y) - (A.x-P.x)*(B.y - A.y))*d;
+	float hoeyde = std::abs((B.x-A.x)*(A.y-P.y) - (A.x-P.x)*(B.y - A.y))*d;
 
-	return arc_radius(høyde, bredde);
+	return arc_radius(hoeyde, bredde);
 }
 
 float w(int x, int y) {

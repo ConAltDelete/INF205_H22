@@ -4,8 +4,7 @@
 #include <string>
 #include "coordstruct.h"
 
-std::vector<coords>
-read_file ( std::string filename )
+std::vector<coords> read_file ( std::string filename )
 {
     int width, height;
     std::ifstream in;
@@ -59,9 +58,8 @@ read_file ( std::string filename )
     return result;
 }
 
-
-int
-main ( int argc, char **argv )
+/*
+int main ( int argc, char **argv )
 {
     if ( argc == 1 )
     {
@@ -74,3 +72,4 @@ main ( int argc, char **argv )
         std::cout << c.x << "," << c.y << std::endl;
     return EXIT_SUCCESS;
 }
+*/

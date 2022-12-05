@@ -9,6 +9,7 @@
 
 #define PI 2.0*std::arccos(0.0)
 
+/*
 struct coords{
 	int x;
 	int y;
@@ -24,6 +25,7 @@ struct coords{
 		return coords{this->x - a.x,this->y - a.y};
 	}
 };
+*/
 
 struct Circle {
 	int x;
