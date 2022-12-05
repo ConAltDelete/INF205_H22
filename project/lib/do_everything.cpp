@@ -15,7 +15,7 @@ coords max_right(std::vector<coords> cont, coords point){
 	
 	coords max_point = coords{0,0};
 	for(auto p : cont){
-		if(p.x > point.x && p.y == point.y){
+		if(p.x >= point.x && p.y == point.y){
 			max_point = p;
 		}
 	}
@@ -25,12 +25,12 @@ coords max_right(std::vector<coords> cont, coords point){
 coords coords_mod(coords p,int max_h,int max_w){
 	coords new_p = p;
 	if(new_p.x >= max_w){
-		std::cout << "Wall hit at x =" << new_p.x << "! y = " << new_p.y <<"\n";
+		//std::cout << "Wall hit at x =" << new_p.x << "! y = " << new_p.y <<"\n";
 		new_p.x = 0;
 		new_p.y++;
 	}
 	if(new_p.y >= max_h){
-		std::cout << "floor hit at y = " << new_p.y << "! x= " << new_p.x << "\n";
+		//std::cout << "floor hit at y = " << new_p.y << "! x= " << new_p.x << "\n";
 		new_p.y = 0;
 	}
 	return new_p;

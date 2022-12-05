@@ -214,7 +214,7 @@ std::vector<int> find_corners(std::vector<coords> blob, float limit) {
 			corners.push_back(i);
 		}
 	}
-	std::cout << "found corners...\n";
+	std::cout << "found corners.\n";
 	return corners;
 }
 
