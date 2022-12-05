@@ -1,2 +1,4 @@
-all:
-	echo "Hello, world!"
+%.obj: %.cpp
+	c++ $? -o $@
+
+
