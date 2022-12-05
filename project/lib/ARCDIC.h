@@ -6,6 +6,7 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
+#include "coordstruct.h"
 
 #define PI 2.0*std::acos(0.0)
 
