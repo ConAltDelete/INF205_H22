@@ -269,7 +269,7 @@ std::vector<Circle> find_circles(std::vector<coords> blob, float limit){
 
 	std::vector<Circle> ret;
 
-	for(int i = 0; i < indexes_corners.size()-1;i++){
+	for(int i = 0;indexes_corners.size() > 0 && i < indexes_corners.size()-1 ;i++){
 		A = blob[indexes_corners[i]];
 		B = blob[indexes_corners[i+1]];
 		P = blob[(int)((indexes_corners[i] + indexes_corners[i+1])/2)];
